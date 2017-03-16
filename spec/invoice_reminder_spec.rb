@@ -20,6 +20,25 @@ describe 'Service invoice reminder' do
     expect(InvoiceNotificationSenderService).to(
         receive(:send_dunning_notification).with(invoice)
     )
-    InvoiceReminderService.process(invoice, Date.parse('2017-03-25'))
+    InvoiceReminderService.process(invoice, Date.parse('2017-03-15'))
+  end
+
+  it "should send a dunning notification one month after due date at the end of the month" do
+    invoice = Invoice.new('12EDF432', 2300, Date.parse('2017-01-31'), nil,
+                          'Doe', 'John', 'john.doe@example.com')
+    expect(InvoiceNotificationSenderService).to(
+      receive(:send_dunning_notification).with(invoice)
+    )
+    InvoiceReminderService.process(invoice, Date.parse('2017-02-28'))
+  end
+
+  it "should send a dunning notification each month after due date" do
+    invoice = Invoice.new('12EDF432', 2300, Date.parse('2017-01-31'), nil,
+                          'Doe', 'John', 'john.doe@example.com')
+
+    expect(InvoiceNotificationSenderService).to(
+      receive(:send_dunning_notification).with(invoice)
+    )
+    InvoiceReminderService.process(invoice, Date.parse('2017-03-31'))
   end
 end
