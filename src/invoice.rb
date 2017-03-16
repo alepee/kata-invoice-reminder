@@ -1,3 +1,5 @@
+require 'date'
+
 class Invoice
   attr_reader(:reference)
   attr_reader(:price)
@@ -11,7 +13,7 @@ class Invoice
                  contact_last_name, contact_first_name, contact_email)
 
     raise TypeError.new unless due_date.class == Date
-    raise TypeError.new unless payment_date.class == Date
+    raise TypeError.new unless payment_date.class == Date || payment_date.class == NilClass
     raise TypeError.new unless price.class == Integer
 
     @reference = reference
