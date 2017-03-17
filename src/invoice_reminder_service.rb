@@ -9,8 +9,17 @@ module InvoiceReminderService
       InvoiceNotificationSenderService.send_before_due_date_notification(invoice)
     end
 
-    if (invoice.due_date + 1.month) == date
+    diff_in_months =
+      (date.year * 12 + date.month) -
+      (invoice.due_date.year * 12 + invoice.due_date.month)
+
+
+    if diff_in_months > 0 and invoice.due_date + diff_in_months.months == date
       InvoiceNotificationSenderService.send_dunning_notification(invoice)
     end
+
+    # if (invoice.due_date + 1.month) == date
+    #   InvoiceNotificationSenderService.send_dunning_notification(invoice)
+    # end
   end
 end

@@ -42,3 +42,6 @@ describe 'Service invoice reminder' do
     InvoiceReminderService.process(invoice, Date.parse('2017-03-31'))
   end
 end
+
+
+
